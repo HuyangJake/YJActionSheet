@@ -25,22 +25,22 @@
     UIImage *img = [UIImage imageNamed:@"avatar2.jpeg"];
     switch (sender.tag) {
         case 100:
-            [YJActionSheetView addToSuperView:self.view withTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] imageArray:@[img, img, img, img, img, img] headerString:@"分享" completionHandle:^(NSInteger index) {
+            [YJActionSheetView showWithTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] imageArray:@[img, img, img, img, img, img] headerString:@"分享" completionHandle:^(NSInteger index) {
                 NSLog(@"%ld", index);
             }];
             break;
         case 101:
-            [YJActionSheetView addToSuperView:self.view withTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] imageArray:@[img, img, img, img, img, img] headerString:nil completionHandle:^(NSInteger index) {
+            [YJActionSheetView showWithTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] imageArray:@[img, img, img, img, img, img] headerString:nil completionHandle:^(NSInteger index) {
                 NSLog(@"%ld", index);
             }];
             break;
         case 102:
-            [YJActionSheetView addToSuperView:self.view withTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] headerString:@"分享" completionHandle:^(NSInteger index) {
+            [YJActionSheetView showWithTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] headerString:@"分享" completionHandle:^(NSInteger index) {
                 NSLog(@"%ld", index);
             }];
             break;
         case 103:
-            [YJActionSheetView addToSuperView:self.view withTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] headerString:nil completionHandle:^(NSInteger index) {
+            [YJActionSheetView showWithTitleArray:@[@"网易", @"阿里", @"腾讯", @"百度", @"微信支付", @"支付宝支付"] headerString:nil completionHandle:^(NSInteger index) {
                 NSLog(@"%ld", index);
             }];
             break;

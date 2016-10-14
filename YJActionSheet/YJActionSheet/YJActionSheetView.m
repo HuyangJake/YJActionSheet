@@ -7,6 +7,8 @@
 //
 
 #import "YJActionSheetView.h"
+#import "AppDelegate.h"
+#define kRootWindow  ((AppDelegate*)([UIApplication sharedApplication].delegate)).window
 
 static const CGFloat tableViewMaxHeight = 300;
 static const CGFloat imageBorder = 25;
@@ -109,7 +111,6 @@ static const CGFloat rowHeight = 45;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSArray *imageArray;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, weak) UIView *fatherView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIView *bgView;
@@ -126,20 +127,19 @@ static const CGFloat rowHeight = 45;
 
 @implementation YJActionSheetView
 
-+ (YJActionSheetView * _Nonnull)addToSuperView:(UIView *_Nonnull)superView withTitleArray:(NSArray *_Nonnull)array headerString:(NSString *_Nullable)headerString completionHandle:(CompleteSelection)handle{
-    return [YJActionSheetView addToSuperView:superView withTitleArray:array imageArray:nil headerString:headerString completionHandle:handle];
++ (YJActionSheetView * _Nonnull)showWithTitleArray:(NSArray *_Nonnull)array headerString:(NSString *_Nullable)headerString completionHandle:(CompleteSelection)handle{
+    return [YJActionSheetView showWithTitleArray:array imageArray:nil headerString:headerString completionHandle:handle];
 }
 
-+ (YJActionSheetView * _Nonnull)addToSuperView:(UIView *_Nonnull)superView withTitleArray:(NSArray *_Nonnull)titleArray imageArray:(NSArray *_Nullable)imgArray headerString:(NSString *_Nullable)headerString completionHandle:(CompleteSelection)handle{
++ (YJActionSheetView * _Nonnull)showWithTitleArray:(NSArray *_Nonnull)titleArray imageArray:(NSArray *_Nullable)imgArray headerString:(NSString *_Nullable)headerString completionHandle:(CompleteSelection)handle{
     if (titleArray && imgArray) {
         NSAssert(titleArray.count == imgArray.count, @"传入的标题数量与图片数量不等！");
     }
-    YJActionSheetView *view = [[YJActionSheetView alloc] initWithFrame:superView.frame];
-    [superView addSubview:view];
+    YJActionSheetView *view = [[YJActionSheetView alloc] initWithFrame:kRootWindow.bounds];
+    [kRootWindow addSubview:view];
     view.completeSelection = handle;
     view.titleArray = [titleArray copy];
     view.imageArray = [imgArray copy];
-    view.fatherView = superView;
     view.headerString = headerString;
     
     
@@ -148,6 +148,7 @@ static const CGFloat rowHeight = 45;
     [view.tableView reloadData];
     
     view.tableViewHeight.constant = view.tableView.contentSize.height > tableViewMaxHeight? tableViewMaxHeight :  view.tableView.contentSize.height;
+    view.tableView.separatorStyle = NO;
     view.tableView.bounces = view.tableViewHeight.constant == tableViewMaxHeight ? YES : NO;
     view.bottomViewHeight.constant = view.tableViewHeight.constant + rowHeight + view.headerTitleHeight.constant + 0.5;
     [view layoutIfNeeded];
