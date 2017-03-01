@@ -168,7 +168,7 @@ static const CGFloat rowHeight = 45;
         self.bgView = bgView;
         [self addSubview:bgView];
         [self triggerInitlaze];
-        [self addSubview:self.bottomView];
+        
     }
     return self;
 }
@@ -211,10 +211,12 @@ static const CGFloat rowHeight = 45;
 #pragma mark - Action
 
 - (void)tapCancleBtn:(UIButton *)sender {
+    self.completeSelection(-1);
     [self closeView:self];
 }
 
 - (void)tapBgView:(UITapGestureRecognizer *)sender {
+    self.completeSelection(-1);
     [self closeView:self];
 }
 
@@ -247,10 +249,8 @@ static const CGFloat rowHeight = 45;
     self.bottomView.alpha = 1;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.headerTitleLabel.alpha = 1;
-    [self.bottomView addSubview:self.headerTitleLabel];
-    [self.bottomView addSubview:self.cancelBtn];
-    [self.bottomView addSubview:self.line];
-    [self.bottomView addSubview:self.tableView];
+    self.cancelBtn.userInteractionEnabled = YES;
+    self.line.userInteractionEnabled = YES;
 }
 
 - (void)setHeaderString:(NSString *)headerString {
@@ -266,6 +266,7 @@ static const CGFloat rowHeight = 45;
         _bottomView = [[UIView alloc]init];
         _bottomView.backgroundColor = [UIColor whiteColor];
         _bottomView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_bottomView];
         NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_bottomView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
         self.bottomConstraint = bottom;
         NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:_bottomView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
@@ -286,6 +287,7 @@ static const CGFloat rowHeight = 45;
         _headerTitleLabel.textColor = [UIColor lightGrayColor];
         _headerTitleLabel.font = [UIFont systemFontOfSize:15];
         _headerTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [_bottomView addSubview:_headerTitleLabel];
         NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:_headerTitleLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
         NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_headerTitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
         NSLayoutConstraint *height = [NSLayoutConstraint constraintWithItem:_headerTitleLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:30];
@@ -303,6 +305,7 @@ static const CGFloat rowHeight = 45;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_bottomView addSubview:_tableView];
         NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.line attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
         NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
         NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
@@ -323,7 +326,7 @@ static const CGFloat rowHeight = 45;
         _cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [_cancelBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [_cancelBtn addTarget:self action:@selector(tapCancleBtn:) forControlEvents:UIControlEventTouchUpInside];
-        
+        [_bottomView addSubview:_cancelBtn];
         _cancelBtn.translatesAutoresizingMaskIntoConstraints = NO;
         NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_cancelBtn attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
         NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:_cancelBtn attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
@@ -340,6 +343,7 @@ static const CGFloat rowHeight = 45;
     if (!_line) {
         _line = [[UIView alloc]init];
         _line.translatesAutoresizingMaskIntoConstraints = NO;
+        [_bottomView addSubview:_line];
         NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_line attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.cancelBtn attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
         NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:_line attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
         NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:_line attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_bottomView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
